@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 21:26:09 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/12/27 19:09:55 by bfaisy           ###   ########.fr       */
+/*   Updated: 2023/12/27 22:17:24 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,93 @@ void Fixed::setRawBits(int const raw)
 int Fixed::getRawBits(void) const
 {
 	return nbr_virg;
+}
+
+bool    Fixed::operator>( const Fixed &a ) const {
+    return getRawBits() > a.getRawBits();
+}
+
+bool    Fixed::operator<( const Fixed &a ) const {
+    return getRawBits() < a.getRawBits();
+}
+
+bool    Fixed::operator>=( const Fixed &a ) const {
+    return getRawBits() >= a.getRawBits();
+}
+
+bool   Fixed::operator<=( const Fixed &a ) const {
+    return getRawBits() <= a.getRawBits();
+}
+
+bool  Fixed::operator==( const Fixed &a ) const {
+    return getRawBits() == a.getRawBits();
+}
+
+bool    Fixed::operator!=( const Fixed &a ) const {
+    return getRawBits() != a.getRawBits();
+}
+
+
+Fixed   Fixed::operator+( const Fixed &a ) const {
+    return Fixed( toFloat() + a.toFloat() );
+}
+
+Fixed   Fixed::operator-( const Fixed &a ) const {
+    return Fixed( toFloat() - a.toFloat() );
+}
+
+Fixed   Fixed::operator*( const Fixed &a ) const {
+    return Fixed( toFloat() * a.toFloat() );
+}
+
+Fixed   Fixed::operator/( const Fixed &a ) const {
+    return Fixed( toFloat() / a.toFloat() );
+}
+
+
+Fixed&   Fixed::operator++( void ) {
+    ++nbr_virg;
+    return *this;
+}
+// le int en arg est une convention
+Fixed   Fixed::operator++( int ) {
+    Fixed tmp( *this );
+    tmp.nbr_virg = nbr_virg++;
+    return tmp;
+}
+
+Fixed& Fixed::operator--( void ) {
+    --nbr_virg;
+    return *this;
+}
+
+Fixed Fixed::operator--( int ) {
+    Fixed tmp( *this );
+    tmp.nbr_virg = nbr_virg--;
+    return tmp;
+}
+
+
+Fixed& Fixed::min( Fixed &a, Fixed &b ) {
+    if ( a.getRawBits() < b.getRawBits() )
+        return a;
+    return b;
+}
+
+const Fixed& Fixed::min( const Fixed &a, const Fixed &b ) {
+    if ( a.getRawBits() < b.getRawBits() )
+        return a;
+    return b;
+}
+
+Fixed& Fixed::max( Fixed &a, Fixed &b ) {
+    if ( a.getRawBits() > b.getRawBits() )
+        return a;
+    return b;
+}
+
+const Fixed& Fixed::max( const Fixed &a, const Fixed &b ) {
+    if ( a.getRawBits() > b.getRawBits() )
+        return a;
+    return b;
 }
