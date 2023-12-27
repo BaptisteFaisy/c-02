@@ -6,12 +6,16 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 21:25:59 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/12/27 16:10:48 by bfaisy           ###   ########.fr       */
+/*   Updated: 2023/12/27 18:45:36 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FIXED_HPP
 #define FIXED_HPP
+
+
+#include <cmath>
+#include <iostream>
 
 class Fixed
 {
@@ -30,6 +34,12 @@ public :
 
 	float toFloat( void ) const;
 	int toInt( void ) const;
+
+	int getRawBits(void) const;
+
+	void setRawBits(int const raw);
 };
 
+//juste pour print et custom selon le type
+std::ostream& operator<<(std::ostream& o, const Fixed& fixed);
 #endif

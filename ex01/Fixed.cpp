@@ -6,17 +6,27 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 21:26:09 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/12/27 16:05:43 by bfaisy           ###   ########.fr       */
+/*   Updated: 2023/12/27 19:05:59 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "Fixed.hpp"
-#include <iostream>
 
 Fixed::Fixed(void) : nbr_virg(0)
 {
 	std::cout << "Default constructor called" << std::endl;
+}
+Fixed::Fixed(int a)
+{
+	nbr_virg = (a << nbr_fraction);
+	std::cout << "Int constructor called\n";
+}
+
+Fixed::Fixed(float const val)
+{
+	std::cout << "Float constructor called" << std::endl;
+	nbr_virg = int(roundf(val * (1 << nbr_fraction)));
 }
 
 Fixed::~Fixed(void)
@@ -25,26 +35,42 @@ Fixed::~Fixed(void)
 }
 
 Fixed::Fixed(const Fixed& other)
-	: nbr_virg(other.nbr_virg)
 {
 	std::cout << "Copy constructor called" << std::endl;
+	std::cout << "Copy assignment operator called" << std::endl;
+	nbr_virg = other.getRawBits();
 }
-
-int Fixed::getRawBits(void) const
+// decalage vers la gauche diviser par 2^fraction
+float Fixed::toFloat(void) const
 {
-	std::cout << "getRawBits member function called" << std::endl;
-	return nbr_virg;
+	return float(nbr_virg) / (1 << nbr_fraction);
 }
-
-void Fixed::setRawBits(int const raw)
+// decalage vers la droite, équivaut à une division par 2^fraction
+int Fixed::toInt(void) const
 {
-	std::cout << "setRawBits member function called" << std::endl;
-	nbr_virg = raw;
+	return nbr_virg >> nbr_fraction;
 }
 
 Fixed& Fixed::operator=(const Fixed& other)
 {
-    std::cout << "Assignment operator called" << std::endl;
-    nbr_virg = other.nbr_virg;
+    std::cout << "Copy assignment operator called" << std::endl;
+    nbr_virg = other.getRawBits();
     return *this;
+}
+
+std::ostream& operator<<(std::ostream& o, const Fixed& fixed)
+{
+	o << fixed.toFloat();
+	return o;
+}
+
+void Fixed::setRawBits(int const raw)
+{
+	nbr_virg = raw;
+	return ;
+}
+
+int Fixed::getRawBits(void) const
+{
+	return nbr_virg;
 }
